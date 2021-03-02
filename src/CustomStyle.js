@@ -1,6 +1,5 @@
-import React, { useRef, useEffect } from "react";
+import React, { useEffect } from "react";
 import { Shaders, Node, GLSL } from "gl-react";
-import { Surface } from "gl-react-dom";
 import MersenneTwister from "mersenne-twister";
 
 /*
@@ -33,8 +32,8 @@ export const styleMetadata = {
   image: "",
   creator_name: "",
   options: {
-    mod1: 0.4,
-    mod2: 0.1,
+    mod1: 0.5,
+    mod2: 0.5,
   },
 };
 
@@ -65,14 +64,7 @@ void main() {
   },
 });
 
-const CustomStyle = ({
-  block,
-  attributesRef,
-  width,
-  height,
-  mod1 = 0.75, // Example: replace any number in the code with mod1, mod2, or color values
-  mod2 = 0.25,
-}) => {
+const CustomStyle = ({ block, attributesRef, width, height, mod1, mod2 }) => {
   useAttributes(attributesRef);
 
   const { hash } = block;
@@ -80,16 +72,14 @@ const CustomStyle = ({
   const rng = new MersenneTwister(parseInt(hash.slice(0, 16), 16));
 
   return (
-    <Surface width={width} height={height}>
-      <Node
-        shader={shaders.main}
-        uniforms={{
-          mod1,
-          mod2,
-          seed: rng.random(),
-        }}
-      />
-    </Surface>
+    <Node
+      shader={shaders.main}
+      uniforms={{
+        mod1,
+        mod2,
+        seed: rng.random(),
+      }}
+    />
   );
 };
 

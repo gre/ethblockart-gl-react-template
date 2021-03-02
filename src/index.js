@@ -5,6 +5,7 @@ import blocks from "./blocks";
 import CustomStyle, { styleMetadata } from "./CustomStyle";
 import Sidebar from "./components/Sidebar";
 import { proxy, useProxy } from "valtio";
+import { Surface } from "gl-react-dom";
 
 const store = proxy({
   ...styleMetadata,
@@ -44,13 +45,15 @@ function App() {
         >
           <h3>EthBlock.art gl-react boilerplate</h3>
           {width && height ? (
-            <CustomStyle
-              width={width}
-              block={blocks[blockNumber]}
-              height={height}
-              attributesRef={attributesRef}
-              {...snap.options}
-            />
+            <Surface width={width} height={height}>
+              <CustomStyle
+                width={width}
+                block={blocks[blockNumber]}
+                height={height}
+                attributesRef={attributesRef}
+                {...snap.options}
+              />
+            </Surface>
           ) : null}
         </div>
       </div>
